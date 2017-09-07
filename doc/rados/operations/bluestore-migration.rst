@@ -114,7 +114,8 @@ Whole host replacement
 If you have a spare host in the cluster, or have sufficient free space
 to evacuate an entire host in order to use it as a spare, then the
 conversion can be done on a host-by-host basis with each stored copy of
-the data migrating only once.
+the data migrating only once.  To evacuate an existing host, simply mark 
+all of its OSDs out and let the cluster rebalance.
 
 #. Identify an empty host.  Ideally the host should have roughly the
    same capacity as other hosts you will be converting (although it
