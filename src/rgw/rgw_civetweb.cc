@@ -35,7 +35,7 @@ RGWCivetWeb::RGWCivetWeb(mg_connection* const conn)
     explicit_conn_close(false),
     txbuf(*this)
 {
-    sockaddr *lsa = mg_get_local_addr(conn);
+    const sockaddr *lsa = mg_get_local_addr(conn);
     switch(lsa->sa_family) {
     case AF_INET:
 	port = ntohs(((struct sockaddr_in*)lsa)->sin_port);
