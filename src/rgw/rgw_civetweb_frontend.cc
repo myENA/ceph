@@ -51,8 +51,6 @@ int RGWCivetWebFrontend::run()
                    std::to_string(g_conf->rgw_thread_pool_size));
   set_conf_default(conf_map, "decode_url", "no");
   set_conf_default(conf_map, "enable_keep_alive", "yes");
-  set_conf_default(conf_map, "validate_http_method", "no");
-  set_conf_default(conf_map, "canonicalize_url_path", "no");
   set_conf_default(conf_map, "enable_auth_domain_check", "no");
   conf->get_val("port", "80", &port_str);
   std::replace(port_str.begin(), port_str.end(), '+', ',');
