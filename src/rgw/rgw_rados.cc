@@ -1352,7 +1352,7 @@ int RGWPeriod::add_zonegroup(const RGWZoneGroup& zonegroup)
 int RGWPeriod::update()
 {
   ldout(cct, 20) << __func__ << " realm " << realm_id << " period " << get_id() << dendl;
-  list<string> zonegroups;
+  list<std::string> zonegroups;
   int ret = store->list_zonegroups(zonegroups);
   if (ret < 0) {
     ldout(cct, 0) << "ERROR: failed to list zonegroups: " << cpp_strerror(-ret) << dendl;

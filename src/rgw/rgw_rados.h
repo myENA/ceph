@@ -2375,6 +2375,10 @@ public:
   librados::IoCtx* get_lc_pool_ctx() {
     return &lc_pool_ctx;
   }
+
+  RGWQuotaHandler* get_rgw_quota_handler() {
+    return quota_handler;
+  }
   void set_context(CephContext *_cct) {
     cct = _cct;
   }

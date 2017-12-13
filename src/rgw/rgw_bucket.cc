@@ -528,6 +528,7 @@ int rgw_remove_bucket(RGWRados *store, rgw_bucket& bucket, bool delete_children)
   if (ret < 0)
     return ret;
 
+
   ret = store->get_bucket_stats(info, RGW_NO_SHARD, &bucket_ver, &master_ver, stats, NULL);
   if (ret < 0)
     return ret;
@@ -536,7 +537,7 @@ int rgw_remove_bucket(RGWRados *store, rgw_bucket& bucket, bool delete_children)
   RGWRados::Bucket::List list_op(&target);
   CephContext *cct = store->ctx();
   int max = 1000;
-
+  uint64_t removed_size = 0;
   list_op.params.list_versions = true;
 
   do {
@@ -554,6 +555,7 @@ int rgw_remove_bucket(RGWRados *store, rgw_bucket& bucket, bool delete_children)
     for (const auto& obj : objs) {
       rgw_obj_key key(obj.key);
       ret = rgw_remove_object(store, info, bucket, key);
+      removed_size += obj.meta.accounted_size;
       if (ret < 0)
         return ret;
     }
@@ -571,6 +573,8 @@ int rgw_remove_bucket(RGWRados *store, rgw_bucket& bucket, bool delete_children)
   if ( ret < 0) {
      dout(1) << "WARNING: failed sync user stats before bucket delete. ret=" <<  ret << dendl;
   }
+
+  store->get_rgw_quota_handler()->update_stats(info.owner, bucket, -1, 0, removed_size);
 
   RGWObjVersionTracker objv_tracker;
 
