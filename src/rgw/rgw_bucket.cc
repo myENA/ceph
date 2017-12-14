@@ -575,7 +575,10 @@ int rgw_remove_bucket(RGWRados *store, rgw_bucket& bucket, bool delete_children)
      dout(1) << "WARNING: failed sync user stats before bucket delete. ret=" <<  ret << dendl;
   }
 
-  store->get_rgw_quota_handler()->update_stats(info.owner, bucket, -1, 0, removed_size);
+  RGWQuotaHandler *quota = store->get_rgw_quota_handler();
+  if (quota != NULL) {
+    quota->update_stats(info.owner, bucket, -1, 0, removed_size);
+  }
 
   RGWObjVersionTracker objv_tracker;
 
