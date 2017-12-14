@@ -555,7 +555,8 @@ int rgw_remove_bucket(RGWRados *store, rgw_bucket& bucket, bool delete_children)
     for (const auto& obj : objs) {
       rgw_obj_key key(obj.key);
       ret = rgw_remove_object(store, info, bucket, key);
-      removed_size += obj.meta.accounted_size;
+
+      removed_size += obj.meta.size;
       if (ret < 0)
         return ret;
     }
